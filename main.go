@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/docker/docker/api/types/container"
@@ -11,7 +12,23 @@ import (
 )
 
 func main() {
-	restart_counter()
+	if len(os.Args) < 2 {
+		help()
+		return
+	}
+
+	// Get the command from first argument
+	command := os.Args[1]
+
+	// Switch on the command
+	switch command {
+	case "restart":
+		restart_counter()
+	case "help":
+		help()
+	default:
+		log.Fatalf("Unknown command: %s", command)
+	}
 }
 
 func restart_counter() {
@@ -46,4 +63,12 @@ func restart_counter() {
 			inspect.RestartCount, container.ID[:12], container.Names[0], time.Unix(container.Created, 0))
 	}
 
+}
+
+func help() {
+	fmt.Println("Usage:")
+	fmt.Printf("  %s <command>\n\n", os.Args[0])
+	fmt.Println("Commands:")
+	fmt.Println("  restart    Show container restart counts")
+	fmt.Println("  help       Show this help message")
 }
