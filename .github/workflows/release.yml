@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24'
+
+      - name: Build
+        run: |
+          GOOS=linux GOARCH=amd64 go build -o conteye-linux-amd64
+          GOOS=darwin GOARCH=amd64 go build -o conteye-darwin-amd64
+          GOOS=windows GOARCH=amd64 go build -o conteye-windows-amd64.exe
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            conteye-linux-amd64
+            conteye-darwin-amd64
+            conteye-windows-amd64.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
