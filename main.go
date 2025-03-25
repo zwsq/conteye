@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 )
 
@@ -15,7 +15,7 @@ func main() {
 		log.Fatalf("Error creating Docker client: %v", err)
 	}
 
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: false})
 	if err != nil {
 		log.Fatalf("Error fetching containers: %v", err)
 	}
