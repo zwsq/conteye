@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
@@ -27,7 +28,7 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("Container: %s (Name: %s) | Restart Count: %d\n",
-			container.ID[:12], container.Names[0], inspect.RestartCount)
+		fmt.Printf("Restart Count: %d\t Container ID: %s\tName: %s\tCreated at: %v\n",
+			inspect.RestartCount, container.ID[:12], container.Names[0], time.Unix(container.Created, 0))
 	}
 }
