@@ -30,7 +30,7 @@ conteye help      # Show help message
 ## Building from Source
 
 ```bash
-git clone https://github.com/yourusername/conteye.git
+git clone https://github.com/zwsq/conteye.git
 cd conteye
 go build
 ```
